@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: acm-multiclusterhub
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/nnsaraiya/acm-install-aws.git
+    targetRevision: main
+    path: hub/overlays/aws-prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: open-cluster-management
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      # The MultiClusterHub CRD does not exist until wave 1's Subscription/CSV has
+      # succeeded. Without this, ArgoCD's dry-run on the very first reconcile fails
+      # with "server could not find the requested resource" before wave 1 finishes.
+      # selfHeal + automated sync retries this Application on the normal reconcile
+      # loop until it succeeds once the CRD appears.
+      - SkipDryRunOnMissingResource=true

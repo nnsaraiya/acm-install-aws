@@ -1,0 +1,9 @@
+# Single place to bump the RHACM release channel. Edit spec.channel, commit, and
+# ArgoCD will auto-sync the new Subscription channel (OLM then upgrades the CSV).
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: acm-operator-subscription
+  namespace: open-cluster-management
+spec:
+  channel: release-2.13

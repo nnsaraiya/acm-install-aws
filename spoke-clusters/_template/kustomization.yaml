@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# After copying this template to spoke-clusters/<cluster-name>/ and replacing
+# CLUSTER_NAME throughout, this lets you apply the three manifests together:
+#   oc apply -k spoke-clusters/<cluster-name>/
+# The auto-import-secret is deliberately NOT listed here — apply it separately,
+# out-of-band, with real credentials that never get committed to git.
+resources:
+  - namespace.yaml
+  - managedcluster.yaml
+  - klusterletaddonconfig.yaml
