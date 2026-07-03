@@ -1,0 +1,19 @@
+# Namespace-scoped (RoleBinding, not ClusterRoleBinding): grants the ArgoCD
+# application-controller service account permission to manage the MultiClusterHub
+# CR only within open-cluster-management, not cluster-wide. The multiclusterhub
+# operator itself (installed via OLM with its own CSV-granted RBAC) is what
+# actually creates ACM's downstream cluster-scoped resources — ArgoCD only ever
+# needs to touch the MultiClusterHub CR itself.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-multiclusterhub-manager
+  namespace: open-cluster-management
+subjects:
+  - kind: ServiceAccount
+    name: openshift-gitops-argocd-application-controller
+    namespace: openshift-gitops
+roleRef:
+  kind: ClusterRole
+  name: argocd-multiclusterhub-manager
+  apiGroup: rbac.authorization.k8s.io

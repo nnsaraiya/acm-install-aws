@@ -5,3 +5,5 @@ resources:
   - namespace.yaml
   - operatorgroup.yaml
   - subscription.yaml
+  - argocd-multiclusterhub-manager-clusterrole.yaml
+  - argocd-multiclusterhub-manager-rolebinding.yaml
