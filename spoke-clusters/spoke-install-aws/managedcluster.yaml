@@ -1,0 +1,10 @@
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  name: spoke-install-aws
+  labels:
+    cloud: Amazon
+    vendor: OpenShift
+    name: spoke-install-aws
+spec:
+  hubAcceptsClient: true
