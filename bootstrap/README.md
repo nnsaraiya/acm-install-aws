@@ -25,9 +25,10 @@ oc apply -f bootstrap/root-application.yaml
 ```
 
 This creates the root `Application` (`acm-install-aws-root`) in the `openshift-gitops`
-namespace, pointed at `gitops/root` in this repo. From here on, ArgoCD manages the
-RHACM operator install and the `MultiClusterHub` CR itself — see the top-level
-[README.md](../README.md) for the sequencing details and verification steps.
+namespace, pointed at `gitops/apps` in this repo (the app-of-apps directory holding the
+two sync-waved child Applications). From here on, ArgoCD manages the RHACM operator
+install and the `MultiClusterHub` CR itself — see the top-level [README.md](../README.md)
+for the sequencing details and verification steps.
 
 If ArgoCD needs read access to this repo (private repo over SSH), register the deploy
 key/credentials with the ArgoCD instance (`openshift-gitops` namespace) before applying

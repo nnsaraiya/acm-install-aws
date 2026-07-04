@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/nnsaraiya/acm-install-aws.git
     targetRevision: main
-    path: gitops/root
+    path: gitops/apps
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-gitops

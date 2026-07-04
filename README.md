@@ -7,8 +7,8 @@ OpenShift cluster on AWS, managed declaratively via ArgoCD (OpenShift GitOps).
 
 ```
 bootstrap/        one-time, manual — installs OpenShift GitOps and points it at this repo
-gitops/root/      root "app-of-apps" Application ArgoCD is bootstrapped against
-gitops/apps/      two child Applications, sequenced by sync-wave:
+gitops/apps/      root "app-of-apps" ArgoCD is bootstrapped against: two child Applications,
+                    sequenced by sync-wave:
                     01-operator-app.yaml (wave 1) -> operator/overlays/aws-prod
                     02-hub-app.yaml      (wave 2) -> hub/overlays/aws-prod
 operator/         RHACM operator install: Namespace, OperatorGroup, Subscription
@@ -47,7 +47,7 @@ oc get multiclusterhub multiclusterhub -n open-cluster-management -o jsonpath='{
 ```
 
 You can also watch progress in the ArgoCD UI: the `acm-install-aws-root` ->
-`acm-install-aws-apps` -> `acm-operator` / `acm-multiclusterhub` Application tree.
+`acm-operator` / `acm-multiclusterhub` Application tree.
 
 ## Bumping the RHACM version
 
