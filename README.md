@@ -40,7 +40,7 @@ GitOps-managed — commits to `main` are what drive changes.
 ## Verify
 
 ```sh
-oc get subscription acm-operator-subscription -n open-cluster-management -o jsonpath='{.status.state}'   # expect AtLatestKnown
+oc get subscriptions.operators.coreos.com acm-operator-subscription -n open-cluster-management -o jsonpath='{.status.state}'   # expect AtLatestKnown (RHACM also registers its own "subscriptions" CRD, so the unqualified "oc get subscription" resolves to the wrong one here)
 oc get csv -n open-cluster-management                                                                     # expect Succeeded
 oc get crd multiclusterhubs.operator.open-cluster-management.io                                            # expect it to exist
 oc get multiclusterhub multiclusterhub -n open-cluster-management -o jsonpath='{.status.phase}'            # expect Running
