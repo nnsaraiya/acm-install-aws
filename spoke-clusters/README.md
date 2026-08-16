@@ -31,7 +31,13 @@ Only use this if/when you actually need to attach a managed (spoke) cluster to t
    A dedicated, disposable namespace makes cleanup a single `oc delete namespace`; the
    clearly-named binding makes it easy to find; the 1h token self-expires whether or
    not anyone remembers to revoke it.
-4. Build the `auto-import-secret` directly **on the hub** from that token — never
+4. Apply the ManagedCluster + KlusterletAddonConfig on the hub. This also creates the
+   `<cluster-name>` namespace, which the auto-import-secret in the next step lives in —
+   so it must run **before** the secret:
+   ```sh
+   oc apply -k spoke-clusters/<cluster-name>/
+   ```
+5. Build the `auto-import-secret` directly **on the hub** from that token — never
    write it to a file, never commit it:
    ```sh
    oc create secret generic auto-import-secret \
@@ -39,10 +45,6 @@ Only use this if/when you actually need to attach a managed (spoke) cluster to t
      --from-literal=token="<token from step 3>" \
      --from-literal=server="https://api.<spoke-cluster-domain>:6443" \
      --from-literal=autoImportRetry="5"
-   ```
-5. Apply the ManagedCluster + KlusterletAddonConfig:
-   ```sh
-   oc apply -k spoke-clusters/<cluster-name>/
    ```
 6. Once `oc get managedcluster <cluster-name>` shows `JOINED=true`/`AVAILABLE=true`
    (see Verify below), clean up the import credential on the spoke — it's never used
